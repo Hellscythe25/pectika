@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PECTIKÁ · Un producto, mil posibilidades</title>
+  <meta name="description" content="PECTIKÁ: pectina de bajo metoxilo 100% peruana, hecha a partir de la cáscara de cacao de San Martín. Ideal para productos con bajo contenido de azúcar.">
+  <meta name="theme-color" content="#CC42A5">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <!-- Fuentes: Fredoka (títulos) y Poppins (textos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="img/pectiny.webp">
+  <link rel="stylesheet" href="css/styles.css?v=3">
+</head>
+<body>
+
+<!-- =====================================================================
+     SPRITE DE ÍCONOS SVG (granos, hojas, flores, reacciones, redes)
+     ===================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-bean" viewBox="0 0 40 26">
+      <ellipse cx="20" cy="13" rx="18" ry="11" fill="#7A3E12"/>
+      <path d="M5 13 Q20 6 35 13" stroke="#B0703A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="13" cy="8" rx="5" ry="2" fill="#fff" opacity=".28"/>
+    </symbol>
+    <symbol id="i-leaf" viewBox="0 0 40 40">
+      <path d="M4 36 C4 14 18 4 36 4 C36 24 24 36 4 36Z" fill="#689455"/>
+      <path d="M7 33 L30 10" stroke="#4F7640" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-flower" viewBox="0 0 60 60">
+      <g fill="currentColor">
+        <ellipse cx="30" cy="15" rx="10" ry="13"/>
+        <ellipse cx="30" cy="15" rx="10" ry="13" transform="rotate(72 30 30)"/>
+        <ellipse cx="30" cy="15" rx="10" ry="13" transform="rotate(144 30 30)"/>
+        <ellipse cx="30" cy="15" rx="10" ry="13" transform="rotate(216 30 30)"/>
+        <ellipse cx="30" cy="15" rx="10" ry="13" transform="rotate(288 30 30)"/>
+      </g>
+      <circle cx="30" cy="30" r="8" fill="#EFBF00"/>
+    </symbol>
+    <symbol id="i-drop" viewBox="0 0 30 40">
+      <path d="M15 2 C15 2 28 20 28 27 A13 13 0 0 1 2 27 C2 20 15 2 15 2Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-pod" viewBox="0 0 60 74">
+      <path d="M30 4 C46 10 52 30 46 50 C42 62 34 68 30 70 C26 68 18 62 14 50 C8 30 14 10 30 4Z" fill="currentColor" stroke="#7A3E12" stroke-width="3"/>
+      <path d="M30 8 V66 M21 14 Q16 38 23 62 M39 14 Q44 38 37 62" stroke="#7A3E12" stroke-width="2" fill="none" opacity=".35"/>
+    </symbol>
+
+    <!-- Reacción "Me gusta": grano de cacao sonriente con pulgar arriba -->
+    <symbol id="r-like" viewBox="0 0 52 48">
+      <ellipse cx="21" cy="25" rx="15" ry="19" fill="#7A3E12"/>
+      <path d="M21 8 Q27 25 21 43" stroke="#B0703A" stroke-width="2" fill="none" opacity=".55"/>
+      <circle cx="15.5" cy="21" r="3.4" fill="#fff"/><circle cx="26.5" cy="21" r="3.4" fill="#fff"/>
+      <circle cx="16.2" cy="21.6" r="1.7" fill="#3A1F0D"/><circle cx="27.2" cy="21.6" r="1.7" fill="#3A1F0D"/>
+      <circle cx="11.5" cy="28" r="2.6" fill="#CC42A5" opacity=".7"/><circle cx="30.5" cy="28" r="2.6" fill="#CC42A5" opacity=".7"/>
+      <path d="M15 29 Q21 36 27 29" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <g transform="translate(33 18)">
+        <path d="M3.5 9 V3 a3 3 0 0 1 6 0 V9" fill="#EFBF00" stroke="#7A3E12" stroke-width="1.8"/>
+        <rect x="0" y="8" width="15" height="13" rx="5" fill="#EFBF00" stroke="#7A3E12" stroke-width="1.8"/>
+        <path d="M2 13 H12 M2 17 H12" stroke="#7A3E12" stroke-width="1.4" opacity=".5"/>
+      </g>
+    </symbol>
+    <!-- Reacción "Me encanta": mazorca de cacao con corazón -->
+    <symbol id="r-love" viewBox="0 0 52 52">
+      <path d="M24 3 C38 8 44 25 39 40 C36 48 29 51 24 52 C19 51 12 48 9 40 C4 25 10 8 24 3Z" fill="#FF751F" stroke="#7A3E12" stroke-width="2.4"/>
+      <path d="M24 6 V48 M16 11 Q12 28 17 45 M32 11 Q36 28 31 45" stroke="#7A3E12" stroke-width="1.6" fill="none" opacity=".3"/>
+      <circle cx="18.5" cy="22" r="3.2" fill="#fff"/><circle cx="29.5" cy="22" r="3.2" fill="#fff"/>
+      <circle cx="19" cy="22.6" r="1.6" fill="#3A1F0D"/><circle cx="30" cy="22.6" r="1.6" fill="#3A1F0D"/>
+      <path d="M19 30 Q24 35 29 30" stroke="#7A3E12" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M40 28 C40 24 46 23 47 27 C48 23 54 24 53 29 C52 34 47 37 44.5 40 C42 37 40 33 40 28Z" fill="#CC42A5" stroke="#7A3E12" stroke-width="1.8" transform="translate(-4 4)"/>
+    </symbol>
+
+    <!-- Redes sociales -->
+    <symbol id="s-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="s-tt" viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M14 3c.5 3 2.5 5 5.5 5.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="s-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10.5V17M8 7.3v.1M12 17v-3.6c0-2 1-3 2.5-3S17 11.4 17 13.4V17M12 10.5V17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<!-- =====================================================================
+     1. MENÚ FIJO
+     ===================================================================== -->
+<header class="site-header" id="header">
+  <nav class="nav container" aria-label="Menú principal">
+    <a class="nav__brand" href="#inicio" aria-label="PECTIKÁ, ir al inicio">
+      <!-- CAMBIAR IMAGEN: logo del menú -->
+      <img src="img/logo-pectika.webp" alt="PECTIKÁ" width="1000" height="471">
+    </a>
+    <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+      <span class="sr-only">Abrir menú</span>
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#que-es">¿Qué es?</a></li>
+        <li><a href="#producto">Producto</a></li>
+        <li><a href="#aplicaciones">Aplicaciones</a></li>
+        <li><a href="#historia">Historia</a></li>
+        <li><a href="#equipo">Equipo</a></li>
+        <li><a href="#comentarios">Comentarios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a class="btn btn--fucsia btn--sm" href="#contacto">Pide tu muestra</a>
+    </div>
+  </nav>
+</header>
+
+<main id="contenido">
+
+<!-- =====================================================================
+     2. INICIO (HERO)
+     ===================================================================== -->
+<section class="hero" id="inicio" data-mascot="¡Hola! Soy Pectiny, la mascota de PECTIKÁ 👋">
+  <div class="hero__blobs" aria-hidden="true">
+    <span class="blob blob--1"></span><span class="blob blob--2"></span><span class="blob blob--3"></span>
+  </div>
+  <!-- Elementos flotantes decorativos -->
+  <div class="floaters" aria-hidden="true">
+    <svg class="fl fl--1"><use href="#i-bean"/></svg>
+    <svg class="fl fl--2 c-fucsia"><use href="#i-flower"/></svg>
+    <svg class="fl fl--3"><use href="#i-leaf"/></svg>
+    <svg class="fl fl--4"><use href="#i-bean"/></svg>
+    <svg class="fl fl--5 c-amarillo"><use href="#i-flower"/></svg>
+    <svg class="fl fl--6 c-turq"><use href="#i-drop"/></svg>
+    <svg class="fl fl--7"><use href="#i-leaf"/></svg>
+    <svg class="fl fl--8 c-naranja"><use href="#i-drop"/></svg>
+    <svg class="fl fl--9"><use href="#i-bean"/></svg>
+  </div>
+
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <h1 class="hero__logo">
+        <!-- CAMBIAR IMAGEN: logo grande del inicio -->
+        <img src="img/logo-pectika.webp" alt="PECTIKÁ – Un producto, mil posibilidades" width="1000" height="471">
+      </h1>
+      <p class="hero__lead">Pectina <strong>100% peruana</strong>, nacida de la cáscara del cacao de <strong>San Martín</strong>.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--fucsia" href="#contacto">Pide tu muestra</a>
+        <a class="btn btn--outline" href="#que-es">Conoce más</a>
+      </div>
+      <ul class="chips" aria-label="Características">
+        <li class="chip chip--oliva">🌿 Origen vegetal</li>
+        <li class="chip chip--turq">♻️ Biodegradable</li>
+        <li class="chip chip--naranja">🍫 A base de cáscara de cacao</li>
+      </ul>
+    </div>
+
+    <div class="hero__stage" id="heroStage">
+      <!-- CAMBIAR IMAGEN: empaque del producto en el inicio -->
+      <img class="hero__pack" src="img/empaque-50g.webp" alt="Empaque de PECTIKÁ, espesante natural de 50 g" width="477" height="723">
+      <div class="mascot-spot hero__mascot" data-phrases='["¡Hola! Soy Pectiny, la mascota de PECTIKÁ 👋","¡Haz clic en mí otra vez!","Vengo de San Martín, Perú 🌳","Un producto, mil posibilidades ✨"]'>
+        <p class="bubble bubble--left" aria-live="polite">¡Hola! Soy Pectiny, la mascota de PECTIKÁ 👋</p>
+        <button class="mascot-btn" type="button" aria-label="Pectiny, la mascota. Haz clic para que salte y diga otra frase">
+          <span class="tilt" id="heroTilt">
+            <!-- CAMBIAR IMAGEN: mascota Pectiny.
+                 NOTA: el polo de la imagen dice "PECTINY" (el nombre de la mascota), no "PECTIKÁ".
+                 Si quieren que diga PECTIKÁ, reemplacen img/pectiny.webp (y img/pectiny-cabeza.webp) por una versión corregida. -->
+            <img src="img/pectiny.webp" alt="Pectiny, mazorca de cacao naranja con polo multicolor, saludando" width="700" height="1300">
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave wave--bottom" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     3. ¿QUÉ ES PECTIKÁ?
+     ===================================================================== -->
+<section class="section section--white" id="que-es" data-mascot="¿Sabías que la cáscara de cacao se botaba? 😮">
+  <div class="container">
+    <div class="split">
+      <div class="reveal">
+        <p class="eyebrow">¿Qué es?</p>
+        <h2 class="title">¿Qué es <span class="hl hl--fucsia">PECTIKÁ</span>?</h2>
+        <p class="lead">Es un <strong>ingrediente en polvo</strong> para la industria alimentaria.</p>
+        <p>Es una <strong>pectina de bajo metoxilo</strong> (grado de esterificación 43.14 %). Gelifica con calcio, por eso sirve para hacer <strong>productos con bajo contenido de azúcar</strong>.</p>
+        <p>La sacamos de algo que antes se perdía: la cáscara del cacao.</p>
+      </div>
+      <div class="mascot-spot mascot-spot--side reveal" data-phrases='["¿Sabías que la cáscara de cacao se botaba? 😮","¡Ahora la convertimos en pectina!","Gelifica con calcio, ¡qué tal ciencia! 🧪"]'>
+        <p class="bubble bubble--down" aria-live="polite">¿Sabías que la cáscara de cacao se botaba? 😮</p>
+        <button class="mascot-btn" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
+          <img src="img/pectiny.webp" alt="" width="700" height="1300" loading="lazy">
+        </button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <article class="stat stat--fucsia reveal">
+        <svg class="stat__deco" aria-hidden="true"><use href="#i-flower"/></svg>
+        <p class="stat__num"><span class="counter" data-target="72.30" data-decimals="2">0</span><span class="stat__unit"> %</span></p>
+        <h3 class="stat__title">de pureza (AGA)</h3>
+        <p class="stat__text">Superior al mínimo de 65 % que pide la FAO.</p>
+      </article>
+      <article class="stat stat--turq reveal">
+        <svg class="stat__deco" aria-hidden="true"><use href="#i-drop"/></svg>
+        <p class="stat__num"><span class="counter" data-target="100" data-decimals="0">0</span><span class="stat__unit"> %</span></p>
+        <h3 class="stat__title">origen peruano</h3>
+        <p class="stat__text">Del campo de San Martín a tu fábrica. 🇵🇪</p>
+      </article>
+      <article class="stat stat--naranja reveal">
+        <svg class="stat__deco" aria-hidden="true"><use href="#i-leaf"/></svg>
+        <p class="stat__num"><span class="counter" data-target="657020" data-decimals="0">0</span><span class="stat__unit"> t</span></p>
+        <h3 class="stat__title">de cáscara de cacao al año</h3>
+        <p class="stat__text">Es lo que se genera en San Martín. ¡Mucho potencial!</p>
+      </article>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-pink" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     4. NUESTRO PRODUCTO
+     ===================================================================== -->
+<section class="section section--pink" id="producto" data-mascot="Pasa el cursor por el empaque 👀">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Nuestro producto</p>
+      <h2 class="title">Sobre de <span class="hl hl--turq">50 g</span>, lleno de posibilidades</h2>
+      <p class="lead">Toca o pasa el cursor por los puntos del empaque.</p>
+    </div>
+
+    <div class="product">
+      <div class="product__stage reveal" id="packStage">
+        <div class="product__pack" id="packTilt">
+          <!-- CAMBIAR IMAGEN: empaque del producto (sección Producto).
+               ATENCIÓN: la imagen actual muestra los textos "Sin Aditivos", "Libre de Químicos" (con error: "Qulmicos")
+               y "100% Origen Detale Piunerla". Según las reglas de contenido NO deben usarse:
+               reemplacen la imagen por una versión corregida del empaque. -->
+          <img src="img/empaque-50g.webp" alt="Empaque PECTIKÁ de 50 g: espesante natural a base de cáscara de cacao" width="477" height="723" loading="lazy">
+          <button class="hotspot" style="--x:50%;--y:47%" data-spot="0" aria-describedby="tip0" type="button"><span class="sr-only">Ver detalle: A base de cáscara de cacao</span></button>
+          <button class="hotspot" style="--x:38%;--y:54%" data-spot="1" aria-describedby="tip1" type="button"><span class="sr-only">Ver detalle: Pectina de origen vegetal</span></button>
+          <button class="hotspot" style="--x:69%;--y:63%" data-spot="2" aria-describedby="tip2" type="button"><span class="sr-only">Ver detalle: Biodegradable</span></button>
+          <button class="hotspot" style="--x:22%;--y:76%" data-spot="3" aria-describedby="tip3" type="button"><span class="sr-only">Ver detalle: Ideal para alimentos, bebidas y postres</span></button>
+        </div>
+      </div>
+
+      <ul class="product__tags">
+        <li class="tag reveal" data-spot="0" id="tip0" tabindex="0">
+          <span class="tag__icon tag__icon--naranja" aria-hidden="true"><svg><use href="#i-pod"/></svg></span>
+          <span><strong>A base de cáscara de cacao</strong><small>Le damos una segunda vida a la cáscara del cacao de San Martín.</small></span>
+        </li>
+        <li class="tag reveal" data-spot="1" id="tip1" tabindex="0">
+          <span class="tag__icon tag__icon--oliva" aria-hidden="true"><svg><use href="#i-leaf"/></svg></span>
+          <span><strong>Pectina de origen vegetal</strong><small>Viene 100 % de una planta: el cacao.</small></span>
+        </li>
+        <li class="tag reveal" data-spot="2" id="tip2" tabindex="0">
+          <span class="tag__icon tag__icon--turq" aria-hidden="true"><svg><use href="#i-drop"/></svg></span>
+          <span><strong>Biodegradable</strong><small>Vuelve a la naturaleza sin dejar huella.</small></span>
+        </li>
+        <li class="tag reveal" data-spot="3" id="tip3" tabindex="0">
+          <span class="tag__icon tag__icon--fucsia" aria-hidden="true"><svg><use href="#i-flower"/></svg></span>
+          <span><strong>Ideal para alimentos, bebidas y postres</strong><small>Yogures, mermeladas, gelatinas, rellenos y más.</small></span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mascot-spot mascot-spot--inline reveal" data-phrases='["¡Este sobre es mi casa! 🏠","50 g de pura posibilidad ✨","¿Lo pruebas en tu fábrica?"]'>
+      <button class="mascot-btn mascot-btn--head" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
+        <img src="img/pectiny-cabeza.webp" alt="" width="240" height="209" loading="lazy">
+      </button>
+      <p class="bubble bubble--right" aria-live="polite">¡Este sobre es mi casa! 🏠</p>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-cream" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     5. DEL CACAO A LA PECTINA (línea de tiempo)
+     ===================================================================== -->
+<section class="section" id="proceso" data-mascot="¡Mira cómo nace PECTIKÁ! 🍫➡️✨">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">El proceso</p>
+      <h2 class="title">Del <span class="hl hl--naranja">cacao</span> a la pectina</h2>
+      <p class="lead">Cuatro pasos sencillos. Baja y míralos aparecer.</p>
+    </div>
+
+    <div class="process">
+      <ol class="timeline" id="timeline">
+        <li class="timeline__progress" aria-hidden="true"><span id="timelineFill"></span></li>
+        <li class="step" data-comment="Todo empieza con la cáscara que antes se botaba 🥲">
+          <div class="step__icon step__icon--naranja" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M14 48 C6 34 12 14 28 8 C26 22 26 38 30 54 C24 56 18 54 14 48Z" fill="#FF751F" stroke="#7A3E12" stroke-width="2.5"/><path d="M50 48 C58 34 52 14 36 8 C38 22 38 38 34 54 C40 56 46 54 50 48Z" fill="#FF751F" stroke="#7A3E12" stroke-width="2.5"/><path d="M28 8 Q32 4 36 8" stroke="#7A3E12" stroke-width="3" fill="none"/></svg>
+          </div>
+          <div class="step__body">
+            <span class="step__n">Paso 1</span>
+            <h3>Cáscara de cacao</h3>
+            <p>Recogemos la cáscara que queda después de sacar los granos en San Martín.</p>
+          </div>
+        </li>
+        <li class="step" data-comment="El ácido cítrico es como el del limón 🍋">
+          <div class="step__icon step__icon--amarillo" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M12 28 H52 V46 Q52 56 42 56 H22 Q12 56 12 46Z" fill="#0097B2" stroke="#7A3E12" stroke-width="2.5"/><rect x="8" y="24" width="48" height="6" rx="3" fill="#7A3E12"/><path d="M24 18 q-3 -5 0 -10 M32 18 q-3 -5 0 -10 M40 18 q-3 -5 0 -10" stroke="#7A3E12" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="48" cy="44" r="10" fill="#EFBF00" stroke="#7A3E12" stroke-width="2.5"/><path d="M48 36 V52 M40 44 H56 M42.5 38.5 L53.5 49.5 M53.5 38.5 L42.5 49.5" stroke="#fff" stroke-width="1.6"/></svg>
+          </div>
+          <div class="step__body">
+            <span class="step__n">Paso 2</span>
+            <h3>Extracción con ácido cítrico</h3>
+            <p>Con ácido cítrico liberamos la pectina que guarda la cáscara.</p>
+          </div>
+        </li>
+        <li class="step" data-comment="Se seca al calor y se muele finito ☀️">
+          <div class="step__icon step__icon--oliva" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="20" cy="20" r="9" fill="#EFBF00" stroke="#7A3E12" stroke-width="2.5"/><path d="M20 4v4M20 32v4M4 20h4M32 20h4M8.7 8.7l2.8 2.8M28.5 28.5l2.8 2.8M8.7 31.3l2.8-2.8M28.5 11.5l2.8-2.8" stroke="#EFBF00" stroke-width="3" stroke-linecap="round"/><path d="M30 40 H58 L54 58 H34Z" fill="#689455" stroke="#7A3E12" stroke-width="2.5"/><path d="M44 40 V30 M44 30 H54" stroke="#7A3E12" stroke-width="3" stroke-linecap="round"/><circle cx="54" cy="30" r="3" fill="#7A3E12"/></svg>
+          </div>
+          <div class="step__body">
+            <span class="step__n">Paso 3</span>
+            <h3>Secado y molienda</h3>
+            <p>La pectina se seca y se muele hasta volverse un polvo fino.</p>
+          </div>
+        </li>
+        <li class="step" data-comment="¡Y listo! Pectina en polvo para mil postres ✨">
+          <div class="step__icon step__icon--fucsia" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M8 40 H56 Q54 58 32 58 Q10 58 8 40Z" fill="#CC42A5" stroke="#7A3E12" stroke-width="2.5"/><path d="M14 40 Q22 22 32 24 Q44 22 50 40Z" fill="#FFF8EE" stroke="#7A3E12" stroke-width="2.5"/><path d="M48 10 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2Z M16 14 l1.5 3.5 3.5 1.5 -3.5 1.5 -1.5 3.5 -1.5 -3.5 -3.5 -1.5 3.5 -1.5Z" fill="#EFBF00"/></svg>
+          </div>
+          <div class="step__body">
+            <span class="step__n">Paso 4</span>
+            <h3>Pectina en polvo</h3>
+            <p>Un polvo listo para gelificar yogures, mermeladas y postres.</p>
+          </div>
+        </li>
+      </ol>
+
+      <aside class="process__mascot" aria-live="polite">
+        <div class="mascot-spot" data-phrases='[]'>
+          <p class="bubble bubble--down" id="processBubble">Baja para ver cada paso 👇</p>
+          <button class="mascot-btn" type="button" aria-label="Pectiny acompaña el proceso">
+            <img src="img/pectiny.webp" alt="" width="700" height="1300" loading="lazy">
+          </button>
+        </div>
+      </aside>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-turq" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     6. UN PRODUCTO, MIL POSIBILIDADES (tarjetas que se voltean)
+     ===================================================================== -->
+<section class="section section--turq" id="aplicaciones" data-mascot="¡Voltea las tarjetas! 🔄">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Aplicaciones</p>
+      <h2 class="title">Un producto, <span class="hl hl--fucsia">mil posibilidades</span></h2>
+      <p class="lead">Pasa el cursor o toca cada tarjeta para darle la vuelta.</p>
+    </div>
+
+    <div class="flip-grid">
+      <!-- Yogures -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-fucsia-soft">
+            <svg class="flip__art" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="126" rx="40" ry="6" fill="#7A3E12" opacity=".12"/><path d="M36 50 L46 118 Q70 126 94 118 L104 50Z" fill="#fff" stroke="#7A3E12" stroke-width="3" stroke-linejoin="round"/><path d="M39.5 74 L100.5 74 L97.5 94 L42.5 94Z" fill="#CC42A5"/><ellipse cx="70" cy="50" rx="34" ry="10" fill="#FCE3F1" stroke="#7A3E12" stroke-width="3"/><path d="M48 50 Q58 34 70 46 Q82 32 92 50" fill="#F7A8CF" stroke="#7A3E12" stroke-width="2.5"/><circle cx="84" cy="38" r="7" fill="#E8335A" stroke="#7A3E12" stroke-width="2.5"/><path d="M84 31 q2 -5 6 -6" stroke="#689455" stroke-width="2.5" fill="none"/><circle cx="60" cy="104" r="3" fill="#3A1F0D"/><circle cx="80" cy="104" r="3" fill="#3A1F0D"/><path d="M64 110 Q70 115 76 110" stroke="#3A1F0D" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Yogures</span>
+          </span>
+          <span class="flip__face flip__back bg-fucsia">
+            <strong>Yogures</strong>
+            <span>Textura cremosa y estable, ideal para versiones con bajo contenido de azúcar.</span>
+          </span>
+        </span>
+      </button>
+      <!-- Mermeladas -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-naranja-soft">
+            <svg class="flip__art" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="126" rx="40" ry="6" fill="#7A3E12" opacity=".12"/><rect x="38" y="46" width="64" height="74" rx="16" fill="#FF751F" stroke="#7A3E12" stroke-width="3"/><rect x="45" y="56" width="9" height="44" rx="4.5" fill="#fff" opacity=".45"/><rect x="34" y="28" width="72" height="20" rx="8" fill="#CC42A5" stroke="#7A3E12" stroke-width="3"/><g fill="#fff"><circle cx="46" cy="38" r="2.5"/><circle cx="58" cy="38" r="2.5"/><circle cx="70" cy="38" r="2.5"/><circle cx="82" cy="38" r="2.5"/><circle cx="94" cy="38" r="2.5"/></g><rect x="52" y="70" width="40" height="30" rx="9" fill="#FFF8EE" stroke="#7A3E12" stroke-width="2.5"/><circle cx="63" cy="83" r="2.6" fill="#3A1F0D"/><circle cx="81" cy="83" r="2.6" fill="#3A1F0D"/><path d="M66 89 Q72 94 78 89" stroke="#3A1F0D" stroke-width="2.3" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Mermeladas bajas en azúcar</span>
+          </span>
+          <span class="flip__face flip__back bg-naranja">
+            <strong>Mermeladas</strong>
+            <span>Gelifica con calcio: ideal para mermeladas con bajo contenido de azúcar.</span>
+          </span>
+        </span>
+      </button>
+      <!-- Gelatinas -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-turq-soft">
+            <svg class="flip__art wobble" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="118" rx="52" ry="9" fill="#fff" stroke="#7A3E12" stroke-width="3"/><path d="M30 114 Q28 62 50 50 Q70 40 90 50 Q112 62 110 114Z" fill="#0097B2" stroke="#7A3E12" stroke-width="3"/><path d="M52 54 Q47 84 50 113 M70 46 V113 M88 54 Q93 84 90 113" stroke="#00758A" stroke-width="3" fill="none"/><path d="M40 74 Q42 62 52 56" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".6"/><circle cx="70" cy="40" r="8" fill="#E8335A" stroke="#7A3E12" stroke-width="2.5"/><path d="M70 32 Q72 22 80 18" stroke="#689455" stroke-width="3" fill="none"/><circle cx="60" cy="90" r="3" fill="#fff"/><circle cx="80" cy="90" r="3" fill="#fff"/><path d="M63 97 Q70 102 77 97" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Gelatinas y postres</span>
+          </span>
+          <span class="flip__face flip__back bg-turq">
+            <strong>Gelatinas y postres</strong>
+            <span>Postres firmes y brillantes, con fruta y sin azúcar añadida.</span>
+          </span>
+        </span>
+      </button>
+      <!-- Rellenos -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-amarillo-soft">
+            <svg class="flip__art" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="124" rx="48" ry="6" fill="#7A3E12" opacity=".12"/><rect x="28" y="60" width="84" height="58" rx="10" fill="#F6D38A" stroke="#7A3E12" stroke-width="3"/><rect x="29.5" y="80" width="81" height="13" fill="#CC42A5"/><path d="M28 80 H112 M28 93 H112" stroke="#7A3E12" stroke-width="2.5"/><path d="M26 64 Q26 54 36 54 H104 Q114 54 114 64 Q108 72 102 64 Q96 74 88 64 Q80 72 72 64 Q64 74 56 64 Q48 72 40 64 Q32 72 26 64Z" fill="#FFF8EE" stroke="#7A3E12" stroke-width="2.5" stroke-linejoin="round"/><path d="M62 52 Q60 38 70 36 Q80 38 78 52Z" fill="#E8335A" stroke="#7A3E12" stroke-width="2.5"/><path d="M64 37 l6 -6 6 6" stroke="#689455" stroke-width="3" fill="none"/><circle cx="58" cy="106" r="3" fill="#3A1F0D"/><circle cx="82" cy="106" r="3" fill="#3A1F0D"/><path d="M64 110 Q70 115 76 110" stroke="#3A1F0D" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Rellenos de pastel</span>
+          </span>
+          <span class="flip__face flip__back bg-amarillo">
+            <strong>Rellenos de pastel</strong>
+            <span>Rellenos de fruta que no se escurren al cortar la tajada.</span>
+          </span>
+        </span>
+      </button>
+      <!-- Mousses -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-cacao-soft">
+            <svg class="flip__art" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="126" rx="36" ry="6" fill="#7A3E12" opacity=".12"/><path d="M38 46 H102 L95 114 Q70 124 45 114Z" fill="#E3F5F8" stroke="#7A3E12" stroke-width="3" stroke-linejoin="round"/><path d="M41.5 66 H98.5 L95.4 111 Q70 119 44.6 111Z" fill="#7A3E12"/><path d="M39.5 54 H100.5 L99.5 66 H40.5Z" fill="#FFE7C2"/><g fill="#fff" stroke="#7A3E12" stroke-width="2.5"><circle cx="54" cy="44" r="9"/><circle cx="86" cy="44" r="9"/><circle cx="70" cy="40" r="11"/></g><circle cx="70" cy="26" r="7" fill="#E8335A" stroke="#7A3E12" stroke-width="2.5"/><circle cx="60" cy="88" r="3" fill="#fff"/><circle cx="80" cy="88" r="3" fill="#fff"/><path d="M63 95 Q70 100 77 95" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Mousses</span>
+          </span>
+          <span class="flip__face flip__back bg-cacao">
+            <strong>Mousses</strong>
+            <span>Ayuda a mantener la espuma suave y estable por más tiempo.</span>
+          </span>
+        </span>
+      </button>
+      <!-- Lácteos -->
+      <button class="flip reveal" type="button" aria-pressed="false">
+        <span class="flip__inner">
+          <span class="flip__face flip__front bg-oliva-soft">
+            <svg class="flip__art" viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="126" rx="36" ry="6" fill="#7A3E12" opacity=".12"/><path d="M52 32 H88 V46 Q102 56 102 72 V112 Q102 120 94 120 H46 Q38 120 38 112 V72 Q38 56 52 46Z" fill="#fff" stroke="#7A3E12" stroke-width="3" stroke-linejoin="round"/><rect x="49" y="20" width="42" height="14" rx="5" fill="#689455" stroke="#7A3E12" stroke-width="3"/><rect x="44" y="74" width="52" height="34" rx="9" fill="#689455"/><circle cx="60" cy="88" r="3" fill="#fff"/><circle cx="80" cy="88" r="3" fill="#fff"/><path d="M63 95 Q70 100 77 95" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M46 60 Q50 54 56 52" stroke="#E3F5F8" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+            <span class="flip__title">Lácteos</span>
+          </span>
+          <span class="flip__face flip__back bg-oliva">
+            <strong>Lácteos</strong>
+            <span>Bebidas lácteas y postres de leche con cuerpo y buena textura.</span>
+          </span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-yellow" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     7. MINI JUEGO: ARMA TU POSTRE
+     ===================================================================== -->
+<section class="section section--yellow" id="juego" data-mascot="¡Juguemos! Arma tu postre 🍓">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Mini juego</p>
+      <h2 class="title">¡Arma tu <span class="hl hl--fucsia">postre</span>!</h2>
+      <p class="lead">Elige (o arrastra) una fruta y un envase. ¡Pectiny hace el resto!</p>
+    </div>
+
+    <div class="game reveal">
+      <div class="game__pickers">
+        <fieldset class="picker">
+          <legend>1. Elige una fruta</legend>
+          <div class="picker__opts" id="fruitOpts"></div>
+        </fieldset>
+        <fieldset class="picker">
+          <legend>2. Elige un envase</legend>
+          <div class="picker__opts" id="cupOpts"></div>
+        </fieldset>
+        <button class="btn btn--fucsia game__go" id="gameGo" type="button" disabled>¡Mezclar con PECTIKÁ! ✨</button>
+      </div>
+
+      <div class="game__stage" id="gameStage" aria-live="polite">
+        <div class="game__slots">
+          <span class="slot" id="slotFruit">🍓 Fruta: <em>—</em></span>
+          <span class="slot" id="slotCup">🥣 Envase: <em>—</em></span>
+        </div>
+        <div class="game__result" id="gameResult">
+          <p class="game__hint">Suelta aquí tu fruta y tu envase 👇</p>
+        </div>
+        <div class="game__msg" id="gameMsg" hidden>
+          <img src="img/pectiny-cabeza.webp" alt="" width="240" height="209">
+          <p><strong id="gameName"></strong><span>¡Con PECTIKÁ, sin azúcar añadida!</span></p>
+        </div>
+        <button class="btn btn--outline btn--sm game__again" id="gameAgain" type="button" hidden>Armar otro 🔁</button>
+      </div>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-cream" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     8. NUESTRA HISTORIA
+     ===================================================================== -->
+<section class="section" id="historia" data-mascot="Esta historia me emociona 🥹">
+  <div class="container split split--story">
+    <div class="reveal">
+      <p class="eyebrow">Nuestra historia</p>
+      <h2 class="title">Todo empezó con una <span class="hl hl--naranja">pregunta</span></h2>
+      <p class="lead">Somos estudiantes de Producción Industrial de Tecsup.</p>
+      <p>Un día descubrimos algo que no nos dejó tranquilas: el Perú importa <strong>más de 4 millones de dólares al año</strong> en pectina… mientras la cáscara del cacao se queda en el campo, desperdiciada.</p>
+      <p>Nos preguntamos: <em>¿y si esa cáscara pudiera ser la respuesta?</em></p>
+      <p class="story__punch">Así nació <strong>PECTIKÁ</strong>. 🧡</p>
+    </div>
+
+    <div class="reveal">
+      <!-- VIDEO "Una silla vacía":
+           Opción 1 (YouTube): escribe el ID del video en data-youtube-id. Ej.: para https://www.youtube.com/watch?v=ABC123xyz usa data-youtube-id="ABC123xyz".
+           Opción 2 (archivo): reemplaza todo este <div class="video"> por:
+             <video class="video" controls poster="img/portada-video.webp"><source src="video/una-silla-vacia.mp4" type="video/mp4"></video> -->
+      <div class="video" id="video" data-youtube-id="">
+        <button class="video__play" type="button" aria-label="Reproducir el video Una silla vacía">
+          <span class="video__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+          <span class="video__title">“Una silla vacía”</span>
+          <span class="video__sub" id="videoSub">Muy pronto aquí ✨</span>
+        </button>
+      </div>
+      <div class="mascot-spot mascot-spot--inline" data-phrases='["Prepara los pañuelos 🥹","Cada postre cuenta una historia 💛"]'>
+        <button class="mascot-btn mascot-btn--head" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
+          <img src="img/pectiny-cabeza.webp" alt="" width="240" height="209" loading="lazy">
+        </button>
+        <p class="bubble bubble--right" aria-live="polite">Prepara los pañuelos 🥹</p>
+      </div>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-pink" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     9. NUESTRO EQUIPO
+     ===================================================================== -->
+<section class="section section--pink" id="equipo" data-mascot="¡Ellas hicieron posible PECTIKÁ! 💖">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Nuestro equipo</p>
+      <h2 class="title">Conoce al equipo detrás de <span class="hl hl--fucsia">PECTIKÁ</span></h2>
+      <p class="lead">Estudiantes de Producción y Gestión Industrial de Tecsup, convirtiendo un residuo en una oportunidad.</p>
+    </div>
+
+    <!-- FOTOS DEL EQUIPO: reemplaza cada <span class="avatar__ph">..</span> por
+         <img src="img/equipo/nombre.webp" alt="Foto de Nombre Apellido"> (foto cuadrada, mínimo 300×300).
+         FRASES: edita el texto dentro de <q>…</q>.
+         LINKEDIN: cambia el href de cada enlace si alguien tiene su perfil propio. -->
+    <div class="team">
+      <article class="member reveal" tabindex="0">
+        <div class="member__inner">
+          <div class="member__face member__front">
+            <div class="avatar avatar--1"><span class="avatar__ph" aria-hidden="true">GC</span><svg class="avatar__deco c-fucsia" aria-hidden="true"><use href="#i-flower"/></svg></div>
+            <h3>Gina Luz<br><span>Condori Labra</span></h3>
+            <p class="member__hint">Toca para conocerla</p>
+          </div>
+          <div class="member__face member__back bg-fucsia">
+            <q>Me apasiona revalorar la riqueza de San Martín y transformar la pectina de nuestra Amazonía en una oportunidad para la industria.</q>
+            <p class="member__name">Condori Labra, Gina Luz</p>
+            <a class="member__in" href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-in"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" tabindex="0">
+        <div class="member__inner">
+          <div class="member__face member__front">
+            <div class="avatar avatar--2"><span class="avatar__ph" aria-hidden="true">DH</span><svg class="avatar__deco c-naranja" aria-hidden="true"><use href="#i-pod"/></svg></div>
+            <h3>Debora Noemi<br><span>Huancayo Matias</span></h3>
+            <p class="member__hint">Toca para conocerla</p>
+          </div>
+          <div class="member__face member__back bg-turq">
+            <q>Creo en el potencial de la pectina natural para ofrecer nuevas alternativas a la industria alimentaria.</q>
+            <p class="member__name">Huancayo Matias, Debora Noemi</p>
+            <a class="member__in" href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-in"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" tabindex="0">
+        <div class="member__inner">
+          <div class="member__face member__front">
+            <div class="avatar avatar--3"><span class="avatar__ph" aria-hidden="true">SL</span><svg class="avatar__deco c-amarillo" aria-hidden="true"><use href="#i-flower"/></svg></div>
+            <h3>Sonaly Clarita<br><span>Lucas Pillaca</span></h3>
+            <p class="member__hint">Toca para conocerla</p>
+          </div>
+          <div class="member__face member__back bg-naranja">
+            <q>En PECTIKÁ, encuentro una oportunidad para transformar la pectina en una propuesta innovadora con mucho potencial.</q>
+            <p class="member__name">Lucas Pillaca, Sonaly Clarita</p>
+            <a class="member__in" href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-in"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" tabindex="0">
+        <div class="member__inner">
+          <div class="member__face member__front">
+            <div class="avatar avatar--4"><span class="avatar__ph" aria-hidden="true">MR</span><svg class="avatar__deco c-oliva" aria-hidden="true"><use href="#i-leaf"/></svg></div>
+            <h3>Maryory Rosmery<br><span>Rivera Tumbay</span></h3>
+            <p class="member__hint">Toca para conocerla</p>
+          </div>
+          <div class="member__face member__back bg-oliva">
+            <q>Sueño con contribuir al desarrollo de PECTIKÁ y llevar los beneficios de la pectina a más personas.</q>
+            <p class="member__name">Rivera Tumbay, Maryory Rosmery</p>
+            <a class="member__in" href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-in"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </article>
+      <article class="member reveal" tabindex="0">
+        <div class="member__inner">
+          <div class="member__face member__front">
+            <div class="avatar avatar--5"><span class="avatar__ph" aria-hidden="true">RS</span><svg class="avatar__deco c-turq" aria-hidden="true"><use href="#i-drop"/></svg></div>
+            <h3>Rosa Marina<br><span>Soto Hualpa</span></h3>
+            <p class="member__hint">Toca para conocerla</p>
+          </div>
+          <div class="member__face member__back bg-cacao">
+            <q>Me motiva impulsar el valor de la pectina y dar a conocer sus aplicaciones naturales.</q>
+            <p class="member__name">Soto Hualpa, Rosa Marina</p>
+            <a class="member__in" href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#s-in"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="team__foot reveal">
+      <div class="mascot-spot mascot-spot--inline" data-phrases='["¡Ellas hicieron posible PECTIKÁ! 💖","¡Un aplauso para el equipo! 👏"]'>
+        <button class="mascot-btn mascot-btn--head" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
+          <img src="img/pectiny-cabeza.webp" alt="" width="240" height="209" loading="lazy">
+        </button>
+        <p class="bubble bubble--right" aria-live="polite">¡Ellas hicieron posible PECTIKÁ! 💖</p>
+      </div>
+      <p class="sign">Tecsup, Lima – Santa Anita · Sección C12-C · 2026-I</p>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-cream" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     10. COMENTARIOS
+     ===================================================================== -->
+<section class="section" id="comentarios" data-mascot="¡Déjanos tu comentario! 💬">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Comentarios</p>
+      <h2 class="title">¿Qué te parece <span class="hl hl--turq">PECTIKÁ</span>?</h2>
+      <p class="lead">Escríbenos y reacciona con nuestros granitos de cacao.</p>
+    </div>
+
+    <div class="comments">
+      <!-- Los comentarios se guardan en el navegador (localStorage).
+           Para compartirlos entre visitantes, conecta aquí una base de datos (Firebase, Supabase, etc.). -->
+      <form class="card form comments__form reveal" id="commentForm" novalidate>
+        <div class="field">
+          <label for="cName">Tu nombre</label>
+          <input id="cName" name="nombre" type="text" maxlength="40" autocomplete="name" required placeholder="Ej.: Lucía">
+        </div>
+        <div class="field">
+          <label for="cText">Tu comentario</label>
+          <textarea id="cText" name="comentario" rows="4" maxlength="400" required placeholder="¿Qué postre harías con PECTIKÁ?"></textarea>
+        </div>
+        <p class="form__error" id="cError" role="alert"></p>
+        <button class="btn btn--turq" type="submit">Publicar</button>
+      </form>
+
+      <div class="comments__list" id="commentList" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="wave wave--bottom wave--to-turq" aria-hidden="true"></div>
+</section>
+
+<!-- =====================================================================
+     11. CONTACTO / PIDE TU MUESTRA
+     ===================================================================== -->
+<section class="section section--turq" id="contacto" data-mascot="¡Pide tu muestra! 📦">
+  <div class="container split split--contact">
+    <div class="reveal">
+      <p class="eyebrow">Contacto</p>
+      <h2 class="title">¡Pide tu <span class="hl hl--fucsia">muestra</span>!</h2>
+      <p class="lead">Venta directa a fabricantes y distribuidores de ingredientes, con entrega en Lima.</p>
+      <ul class="checks">
+        <li>Sobre de 50 g para probar en tu planta</li>
+        <li>Asesoría para tu primera formulación</li>
+        <li>Respuesta rápida por correo</li>
+      </ul>
+      <div class="mascot-spot mascot-spot--side contact__mascot" data-phrases='["¡Pide tu muestra! 📦","¡Te espero en tu fábrica! 🏭","Escríbenos, no muerdo 😄"]'>
+        <p class="bubble bubble--down" aria-live="polite">¡Pide tu muestra! 📦</p>
+        <button class="mascot-btn" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
+          <img src="img/pectiny.webp" alt="" width="700" height="1300" loading="lazy">
+        </button>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DE MUESTRA: ahora solo muestra el agradecimiento (no envía datos).
+         Para recibir los pedidos por correo, usa un servicio como Formspree:
+         pon action="https://formspree.io/f/TU_ID" y cambia SAMPLE_ENDPOINT en js/main.js. -->
+    <form class="card form reveal" id="sampleForm" novalidate>
+      <div class="form__row">
+        <div class="field">
+          <label for="sName">Nombre</label>
+          <input id="sName" name="nombre" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="sCompany">Empresa</label>
+          <input id="sCompany" name="empresa" type="text" autocomplete="organization" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="sEmail">Correo</label>
+        <input id="sEmail" name="correo" type="email" autocomplete="email" required placeholder="nombre@empresa.com">
+      </div>
+      <div class="field">
+        <label for="sProduct">Producto de interés</label>
+        <select id="sProduct" name="producto" required>
+          <option value="">Elige una opción</option>
+          <option>Lácteos</option>
+          <option>Mermeladas</option>
+          <option>Postres</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sMsg">Mensaje</label>
+        <textarea id="sMsg" name="mensaje" rows="4" placeholder="Cuéntanos qué producto quieres desarrollar"></textarea>
+      </div>
+      <p class="form__error" id="sError" role="alert"></p>
+      <button class="btn btn--fucsia" type="submit">Pedir mi muestra 📦</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- =====================================================================
+     12. PIE DE PÁGINA
+     ===================================================================== -->
+<footer class="footer">
+  <div class="wave wave--top" aria-hidden="true"></div>
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <!-- CAMBIAR IMAGEN: logo del pie de página -->
+      <img src="img/logo-pectika.webp" alt="PECTIKÁ" width="1000" height="471" loading="lazy">
+      <p class="footer__slogan">Un producto, mil posibilidades</p>
+    </div>
+    <div class="footer__info">
+      <!-- CAMBIAR ENLACES de redes sociales (Instagram y TikTok son de ejemplo) -->
+      <ul class="social" aria-label="Redes sociales">
+        <li><a href="https://www.instagram.com/pectika" target="_blank" rel="noopener" aria-label="Instagram de PECTIKÁ"><svg><use href="#s-ig"/></svg></a></li>
+        <li><a href="https://www.tiktok.com/@pectika" target="_blank" rel="noopener" aria-label="TikTok de PECTIKÁ"><svg><use href="#s-tt"/></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/pectik%C3%A1-group-a9a250451" target="_blank" rel="noopener" aria-label="LinkedIn de PECTIKÁ"><svg><use href="#s-in"/></svg></a></li>
+      </ul>
+      <p>Hecho en San Martín, Perú 🇵🇪</p>
+      <p>Proyecto Integrador – Tecsup 2026</p>
+    </div>
+  </div>
+</footer>
+
+<!-- =====================================================================
+     MASCOTA FLOTANTE (sigue el scroll y cambia su mensaje según la sección)
+     ===================================================================== -->
+<div class="buddy" id="buddy">
+  <p class="buddy__bubble" id="buddyBubble" aria-live="polite">¡Hola! Soy Pectiny 👋</p>
+  <button class="buddy__btn" id="buddyBtn" type="button" aria-label="Pectiny, mascota flotante. Haz clic para que salte">
+    <img src="img/pectiny.webp" alt="" width="700" height="1300">
+  </button>
+  <button class="buddy__close" id="buddyClose" type="button" aria-label="Ocultar el mensaje de Pectiny">×</button>
+</div>
+
+<!-- Agradecimiento al pedir muestra -->
+<dialog class="thanks" id="thanks" aria-labelledby="thanksTitle">
+  <img class="thanks__mascot" src="img/pectiny.webp" alt="Pectiny saltando de alegría" width="700" height="1300">
+  <h2 id="thanksTitle">¡Gracias!</h2>
+  <p id="thanksText">Recibimos tu pedido. Te escribiremos pronto.</p>
+  <button class="btn btn--fucsia" id="thanksClose" type="button">¡Genial!</button>
+</dialog>
+
+<script src="js/main.js?v=2" defer></script>
+</body>
+</html>
