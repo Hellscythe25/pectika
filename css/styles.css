@@ -687,3 +687,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .step__icon { transform: none; }
   .spark, .confetti { display: none; }
 }
+
+/* Campo trampa anti-spam (oculto para personas) */
+.hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

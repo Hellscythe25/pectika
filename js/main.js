@@ -13,6 +13,12 @@
   // Para recibir los pedidos de muestra por correo, crea un formulario en
   // https://formspree.io y pega aquí su dirección (ej.: 'https://formspree.io/f/abcdwxyz').
   const SAMPLE_ENDPOINT = '';
+  // COMENTARIOS COMPARTIDOS (Supabase): en tu proyecto ve a Project Settings > API
+  // y copia "Project URL" y la clave "anon public". Es seguro ponerlas aquí: la
+  // tabla está protegida con las reglas de supabase/comentarios.sql.
+  // Si las dejas vacías, los comentarios se guardan solo en este navegador.
+  const SUPABASE_URL = '';      // ej.: 'https://abcdefghijk.supabase.co'
+  const SUPABASE_ANON_KEY = ''; // ej.: 'eyJhbGciOiJIUzI1NiIs...'
   const COMMENTS_KEY = 'pectika-comentarios-v1';
   const REACTIONS_KEY = 'pectika-reacciones-v1';
 
@@ -499,7 +505,10 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 10. COMENTARIOS (guardados en el navegador)
+  // 10. COMENTARIOS
+  //     Con Supabase configurado: todos los visitantes ven los mismos comentarios
+  //     y los contadores de reacciones son compartidos.
+  //     Sin configurar: se guardan solo en este navegador (modo de prueba).
   // ---------------------------------------------------------------------------
   const store = {
     get(key, fallback) {
@@ -509,12 +518,101 @@
       try { localStorage.setItem(key, JSON.stringify(val)); } catch (_) { /* almacenamiento lleno o bloqueado */ }
     },
   };
-  let comments = store.get(COMMENTS_KEY, []);
+  const USE_DB = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+  let comments = [];
   let myReactions = store.get(REACTIONS_KEY, {});
+  const REACT_COL = { like: 'me_gusta', love: 'me_encanta' };
 
+  // --- Acceso a datos -------------------------------------------------------
+  const sbHeaders = () => ({
+    apikey: SUPABASE_ANON_KEY,
+    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    'Content-Type': 'application/json',
+  });
+  const fromRow = (r) => ({
+    id: r.id, name: r.nombre, text: r.texto, ts: Date.parse(r.created_at),
+    like: r.me_gusta || 0, love: r.me_encanta || 0, av: r.avatar || { c: 0, e: 0, m: 0, a: 0 },
+  });
+  const db = USE_DB ? {
+    async list() {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/comentarios?select=id,nombre,texto,avatar,me_gusta,me_encanta,created_at&order=created_at.desc&limit=100`, { headers: sbHeaders() });
+      if (!res.ok) throw new Error(`lectura ${res.status}`);
+      return (await res.json()).map(fromRow);
+    },
+    async add(c) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/comentarios?select=id,nombre,texto,avatar,me_gusta,me_encanta,created_at`, {
+        method: 'POST',
+        headers: { ...sbHeaders(), Prefer: 'return=representation' },
+        body: JSON.stringify({ nombre: c.name, texto: c.text, avatar: c.av }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `envío ${res.status}`);
+      }
+      const [row] = await res.json();
+      return fromRow(row);
+    },
+    async react(id, kind, delta) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/reaccionar`, {
+        method: 'POST',
+        headers: sbHeaders(),
+        body: JSON.stringify({ p_id: id, p_tipo: REACT_COL[kind], p_delta: delta }),
+      });
+      if (!res.ok) throw new Error(`reacción ${res.status}`);
+      const [row] = await res.json();
+      return row ? { like: row.gusta, love: row.encanta } : null;
+    },
+  } : {
+    // Modo local (sin base de datos)
+    async list() { return store.get(COMMENTS_KEY, []); },
+    async add(c) {
+      const all = store.get(COMMENTS_KEY, []);
+      const saved = { ...c, id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, ts: Date.now(), like: 0, love: 0, own: true };
+      all.push(saved);
+      store.set(COMMENTS_KEY, all);
+      return saved;
+    },
+    async react(id, kind, delta) {
+      const all = store.get(COMMENTS_KEY, []);
+      const c = all.find((x) => x.id === id);
+      if (!c) return null;
+      c[kind] = Math.max(0, (c[kind] || 0) + delta);
+      store.set(COMMENTS_KEY, all);
+      return { like: c.like || 0, love: c.love || 0 };
+    },
+    remove(id) { store.set(COMMENTS_KEY, store.get(COMMENTS_KEY, []).filter((x) => x.id !== id)); },
+  };
+
+  // --- Filtro anti-spam -----------------------------------------------------
+  const PAGE_LOADED_AT = Date.now();
+  const LAST_POST_KEY = 'pectika-ultimo-comentario';
+  const MIN_SECONDS_BETWEEN_POSTS = 30;
+  // Palabras no permitidas (se comparan sin tildes y como palabra completa o raíz)
+  const BAD_WORDS = ['mierda', 'puta', 'puto', 'putas', 'putos', 'idiota', 'imbecil', 'estupid', 'huevon', 'cojud', 'conchatumadre', 'ctm', 'csm', 'pendej', 'marica', 'maricon', 'verga', 'carajo', 'cabron', 'perra', 'zorra', 'porno', 'casino', 'bitcoin', 'crypto', 'viagra'];
+  const strip = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const badWordRe = new RegExp(`(^|[^a-z0-9])(${BAD_WORDS.join('|')})[a-z]*($|[^a-z0-9])`);
+
+  function spamCheck(name, text) {
+    if (name.length < 2) return 'Escribe tu nombre (mínimo 2 letras).';
+    if (text.length < 3) return 'Tu comentario está vacío o es muy corto.';
+    if (!/[a-záéíóúñü]/i.test(text)) return 'Escribe un comentario con palabras, por favor.';
+    if (/(https?:\/\/|www\.|\.(com|net|org|ru|xyz|info|pe|io)\b)/i.test(`${name} ${text}`)) return 'Por seguridad, no se permiten enlaces en los comentarios.';
+    if (/(.)\1{5,}/.test(text)) return 'Tu comentario tiene demasiadas letras repetidas.';
+    if (text.length > 20 && text.replace(/[^A-ZÁÉÍÓÚÑ]/g, '').length / text.replace(/[^a-záéíóúñA-ZÁÉÍÓÚÑ]/g, '').length > 0.7) return 'Por favor, no escribas todo en mayúsculas.';
+    if (badWordRe.test(strip(` ${name} ${text} `))) return 'Tu comentario tiene palabras no permitidas. ¡Mantengámoslo amable! 💛';
+    const last = Number(store.get(LAST_POST_KEY, 0));
+    const wait = Math.ceil(MIN_SECONDS_BETWEEN_POSTS - (Date.now() - last) / 1000);
+    if (wait > 0) return `Espera ${wait} segundos antes de publicar otro comentario.`;
+    if (comments.some((c) => strip(c.text.trim()) === strip(text))) return 'Ese comentario ya fue publicado.';
+    return '';
+  }
+
+  // --- Avatares de caricatura -----------------------------------------------
   const AV_COLORS = ['#FF751F', '#CC42A5', '#0097B2', '#EFBF00', '#689455', '#A0521C'];
   const AV_BG = ['#FFE6D4', '#FBE0EF', '#D3F0F5', '#FFF0B8', '#E2EEDC', '#F2E1D2'];
   function avatarSVG(a) {
+    const n = (v) => (Number.isInteger(v) && v >= 0 ? v : 0); // datos de la base: siempre números
+    a = { c: n(a.c), e: n(a.e), m: n(a.m), a: n(a.a) };
     const col = AV_COLORS[a.c % AV_COLORS.length];
     const bg = AV_BG[(a.c + 2) % AV_BG.length];
     const eyes = [
@@ -540,19 +638,34 @@
       ${eyes}${mouth}${acc}</svg>`;
   }
 
+  // --- Pintar la lista --------------------------------------------------------
   const list = $('#commentList');
   function fmtDate(ts) {
     try { return new Date(ts).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (_) { return ''; }
   }
-  function renderComments() {
+  function statusMsg(text, retry = false) {
     list.innerHTML = '';
+    const p = document.createElement('div');
+    p.className = 'comments__empty';
+    p.textContent = text;
+    if (retry) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn btn--outline btn--sm';
+      b.textContent = 'Reintentar';
+      b.style.marginTop = '1rem';
+      b.addEventListener('click', () => loadComments());
+      p.appendChild(document.createElement('br'));
+      p.appendChild(b);
+    }
+    list.appendChild(p);
+  }
+  function renderComments() {
     if (!comments.length) {
-      const empty = document.createElement('p');
-      empty.className = 'comments__empty';
-      empty.textContent = 'Aún no hay comentarios. ¡Sé la primera persona en escribir! 🌱';
-      list.appendChild(empty);
+      statusMsg('Aún no hay comentarios. ¡Sé la primera persona en escribir! 🌱');
       return;
     }
+    list.innerHTML = '';
     comments.slice().sort((a, b) => b.ts - a.ts).forEach((c) => list.appendChild(commentEl(c)));
   }
   function commentEl(c) {
@@ -560,14 +673,14 @@
     art.className = 'comment';
     const mine = myReactions[c.id] || {};
     art.innerHTML = `
-      <div class="comment__avatar">${avatarSVG(c.av)}</div>
+      <div class="comment__avatar">${avatarSVG(c.av || {})}</div>
       <div>
         <div class="comment__head"><h3 class="comment__name"></h3><span class="comment__date"></span></div>
         <p class="comment__text"></p>
         <div class="comment__actions">
-          <button class="react" type="button" data-r="like" aria-pressed="${!!mine.like}"><svg viewBox="0 0 52 48" aria-hidden="true"><use href="#r-like"/></svg><span class="react__label">Me gusta</span> <span class="react__n">${c.like || 0}</span></button>
-          <button class="react" type="button" data-r="love" aria-pressed="${!!mine.love}"><svg viewBox="0 0 52 52" aria-hidden="true"><use href="#r-love"/></svg><span class="react__label">Me encanta</span> <span class="react__n">${c.love || 0}</span></button>
-          ${c.own ? '<button class="comment__del" type="button">Eliminar</button>' : ''}
+          <button class="react" type="button" data-r="like" aria-pressed="${!!mine.like}"><svg viewBox="0 0 52 48" aria-hidden="true"><use href="#r-like"/></svg><span class="react__label">Me gusta</span> <span class="react__n">${Number(c.like) || 0}</span></button>
+          <button class="react" type="button" data-r="love" aria-pressed="${!!mine.love}"><svg viewBox="0 0 52 52" aria-hidden="true"><use href="#r-love"/></svg><span class="react__label">Me encanta</span> <span class="react__n">${Number(c.love) || 0}</span></button>
+          ${c.own && !USE_DB ? '<button class="comment__del" type="button">Eliminar</button>' : ''}
         </div>
       </div>`;
     // Texto del usuario siempre como texto (nunca como HTML)
@@ -576,28 +689,48 @@
     $('.comment__text', art).textContent = c.text;
 
     $$('.react', art).forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
+        if (btn.dataset.busy) return;
         const r = btn.dataset.r;
         const state = myReactions[c.id] || (myReactions[c.id] = {});
-        state[r] = !state[r];
-        c[r] = Math.max(0, (c[r] || 0) + (state[r] ? 1 : -1));
-        store.set(REACTIONS_KEY, myReactions);
-        store.set(COMMENTS_KEY, comments);
-        btn.setAttribute('aria-pressed', String(state[r]));
+        const on = !state[r];
+        const delta = on ? 1 : -1;
+        // Actualización inmediata en pantalla
+        state[r] = on;
+        c[r] = Math.max(0, (c[r] || 0) + delta);
+        btn.setAttribute('aria-pressed', String(on));
         $('.react__n', btn).textContent = c[r];
         replay(btn, 'bounce');
-        if (state[r]) {
+        if (on) {
           const rb = btn.getBoundingClientRect();
           beanBurst(rb.left + 20, rb.top + rb.height / 2, 10);
+        }
+        btn.dataset.busy = '1';
+        try {
+          const counts = await db.react(c.id, r, delta);
+          if (counts) {
+            c.like = counts.like; c.love = counts.love;
+            $('.react__n', $('.react[data-r="like"]', art)).textContent = c.like;
+            $('.react__n', $('.react[data-r="love"]', art)).textContent = c.love;
+          }
+          store.set(REACTIONS_KEY, myReactions);
+        } catch (_) {
+          // Si falla, se deshace el cambio
+          state[r] = !on;
+          c[r] = Math.max(0, (c[r] || 0) - delta);
+          btn.setAttribute('aria-pressed', String(!on));
+          $('.react__n', btn).textContent = c[r];
+        } finally {
+          delete btn.dataset.busy;
         }
       });
     });
     const del = $('.comment__del', art);
     if (del) {
       del.addEventListener('click', () => {
+        db.remove(c.id);
         comments = comments.filter((x) => x.id !== c.id);
         delete myReactions[c.id];
-        store.set(COMMENTS_KEY, comments);
         store.set(REACTIONS_KEY, myReactions);
         renderComments();
       });
@@ -605,35 +738,81 @@
     return art;
   }
 
+  let lastSnapshot = '';
+  async function loadComments(silent = false) {
+    if (!silent) statusMsg('Cargando comentarios… 🌱');
+    try {
+      const data = await db.list();
+      const snap = JSON.stringify(data);
+      if (silent && snap === lastSnapshot) return; // nada nuevo
+      lastSnapshot = snap;
+      comments = data;
+      renderComments();
+    } catch (_) {
+      if (!silent) statusMsg('No pudimos cargar los comentarios. Revisa tu conexión.', true);
+    }
+  }
+
+  // --- Publicar ----------------------------------------------------------------
   const cForm = $('#commentForm');
-  cForm.addEventListener('submit', (e) => {
+  const cSubmit = $('#cSubmit');
+  cForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const nameI = $('#cName');
     const textI = $('#cText');
-    const name = nameI.value.trim();
-    const text = textI.value.trim();
-    nameI.setAttribute('aria-invalid', String(!name));
-    textI.setAttribute('aria-invalid', String(!text));
-    if (!name || !text) {
-      $('#cError').textContent = 'Escribe tu nombre y tu comentario, por favor.';
-      (name ? textI : nameI).focus();
+    const name = nameI.value.replace(/\s+/g, ' ').trim();
+    const text = textI.value.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+    const errEl = $('#cError');
+
+    // Trampa anti-robots: campo oculto lleno o envío demasiado rápido
+    if ($('#cWeb').value || Date.now() - PAGE_LOADED_AT < 3000) {
+      cForm.reset();
       return;
     }
-    $('#cError').textContent = '';
+    const problem = spamCheck(name, text);
+    nameI.setAttribute('aria-invalid', String(name.length < 2));
+    textI.setAttribute('aria-invalid', String(Boolean(problem) && name.length >= 2));
+    if (problem) {
+      errEl.textContent = problem;
+      (name.length < 2 ? nameI : textI).focus();
+      return;
+    }
+    errEl.textContent = '';
+    cSubmit.disabled = true;
+    cSubmit.textContent = 'Publicando…';
     const r = () => Math.floor(Math.random() * 12);
-    const c = { id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, name, text, ts: Date.now(), like: 0, love: 0, own: true, av: { c: r(), e: r(), m: r(), a: r() } };
-    comments.push(c);
-    store.set(COMMENTS_KEY, comments);
-    renderComments();
-    cForm.reset();
-    setBuddy(`¡Gracias por comentar, ${name.split(' ')[0]}! 💬`, true);
-    const first = $('.comment', list);
-    if (first) {
-      const rb = first.getBoundingClientRect();
-      beanBurst(rb.left + 40, rb.top + 40, 14);
+    try {
+      const saved = await db.add({ name, text, av: { c: r(), e: r(), m: r(), a: r() } });
+      store.set(LAST_POST_KEY, Date.now());
+      comments.push(saved);
+      lastSnapshot = '';
+      renderComments();
+      cForm.reset();
+      nameI.removeAttribute('aria-invalid');
+      textI.removeAttribute('aria-invalid');
+      setBuddy(`¡Gracias por comentar, ${name.split(' ')[0]}! 💬`, true);
+      const first = $('.comment', list);
+      if (first) {
+        const rb = first.getBoundingClientRect();
+        beanBurst(rb.left + 40, rb.top + 40, 14);
+      }
+    } catch (err) {
+      const msg = String(err.message || '');
+      errEl.textContent = /repetido/i.test(msg) ? 'Ese comentario ya fue publicado.'
+        : /demasiados/i.test(msg) ? 'Hay muchos comentarios en este momento. Intenta en un minuto.'
+        : /check|violates/i.test(msg) ? 'Tu comentario no cumple las reglas (sin enlaces, entre 3 y 400 caracteres).'
+        : 'No pudimos publicar tu comentario. Inténtalo otra vez.';
+    } finally {
+      cSubmit.disabled = false;
+      cSubmit.textContent = 'Publicar';
     }
   });
-  renderComments();
+
+  loadComments();
+  // Con base de datos: revisa cada minuto si hay comentarios nuevos (solo con la pestaña visible)
+  if (USE_DB) {
+    setInterval(() => { if (document.visibilityState === 'visible') loadComments(true); }, 60000);
+  }
 
   // ---------------------------------------------------------------------------
   // 11. FORMULARIO "PIDE TU MUESTRA"
