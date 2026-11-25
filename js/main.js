@@ -256,7 +256,7 @@
   }, { threshold: [0, 0.35, 0.6] }).observe(hero);
 
   // Sección actual -> mensaje de la mascota + enlace activo del menú
-  const navMap = { proceso: 'producto', juego: 'aplicaciones' };
+  const navMap = { proceso: 'producto', juego: 'aplicaciones', creadoras: 'equipo' };
   const navLinks = $$('.nav__links a');
   const sectionIO = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
@@ -861,6 +861,12 @@
   // 8. VIDEO "UNA SILLA VACÍA"
   // ---------------------------------------------------------------------------
   const video = $('#video');
+  if (video && (video.dataset.youtubeId || '').trim()) {
+    // Miniatura del video de YouTube como fondo del reproductor
+    video.style.backgroundImage = `linear-gradient(rgba(74,37,11,.45), rgba(74,37,11,.45)), url(https://i.ytimg.com/vi/${encodeURIComponent(video.dataset.youtubeId.trim())}/hqdefault.jpg)`;
+    video.style.backgroundSize = 'cover';
+    video.style.backgroundPosition = 'center';
+  }
   if (video) {
     $('.video__play', video).addEventListener('click', () => {
       const id = (video.dataset.youtubeId || '').trim();

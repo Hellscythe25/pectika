@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="preload" as="image" href="img/pectiny.webp">
-  <link rel="stylesheet" href="css/styles.css?v=4">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
 
@@ -499,11 +499,11 @@
            Opción 1 (YouTube): escribe el ID del video en data-youtube-id. Ej.: para https://www.youtube.com/watch?v=ABC123xyz usa data-youtube-id="ABC123xyz".
            Opción 2 (archivo): reemplaza todo este <div class="video"> por:
              <video class="video" controls poster="img/portada-video.webp"><source src="video/una-silla-vacia.mp4" type="video/mp4"></video> -->
-      <div class="video" id="video" data-youtube-id="">
+      <div class="video" id="video" data-youtube-id="5aZ6DBTdsgs">
         <button class="video__play" type="button" aria-label="Reproducir el video Una silla vacía">
           <span class="video__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
           <span class="video__title">“Una silla vacía”</span>
-          <span class="video__sub" id="videoSub">Muy pronto aquí ✨</span>
+          <span class="video__sub" id="videoSub">Toca para ver el video ▶</span>
         </button>
       </div>
       <div class="mascot-spot mascot-spot--inline" data-phrases='["Prepara los pañuelos 🥹","Cada postre cuenta una historia 💛"]'>
@@ -520,7 +520,7 @@
 <!-- =====================================================================
      9. NUESTRO EQUIPO
      ===================================================================== -->
-<section class="section section--pink" id="equipo" data-mascot="¡Ellas hicieron posible PECTIKÁ! 💖">
+<section class="section section--pink" id="equipo" data-mascot="Toca cada tarjeta para conocerlas 💖">
   <div class="container">
     <div class="center reveal">
       <p class="eyebrow">Nuestro equipo</p>
@@ -603,16 +603,57 @@
         </div>
       </article>
     </div>
+  </div>
+  <div class="wave wave--bottom wave--to-yellow" aria-hidden="true"></div>
+</section>
 
-    <div class="team__foot reveal">
-      <div class="mascot-spot mascot-spot--inline" data-phrases='["¡Ellas hicieron posible PECTIKÁ! 💖","¡Un aplauso para el equipo! 👏"]'>
-        <button class="mascot-btn mascot-btn--head" type="button" aria-label="Pectiny. Haz clic para escuchar otra frase">
-          <img src="img/pectiny-cabeza.webp" alt="" width="240" height="209" loading="lazy">
-        </button>
-        <p class="bubble bubble--right" aria-live="polite">¡Ellas hicieron posible PECTIKÁ! 💖</p>
-      </div>
-      <p class="sign">Tecsup, Lima – Santa Anita · Sección C12-C · 2026-I</p>
+<!-- =====================================================================
+     9b. LAS CREADORAS (foto grupal)
+     ===================================================================== -->
+<section class="section section--yellow" id="creadoras" data-mascot="¡Ellas hicieron posible PECTIKÁ! 💖">
+  <div class="container">
+    <div class="center reveal">
+      <p class="eyebrow">Las creadoras</p>
+      <h2 class="title">Conoce a las <span class="hl hl--fucsia">creadoras</span> de PECTIKÁ</h2>
+      <p class="lead">Estudiantes de Producción y Gestión Industrial de Tecsup que convirtieron un residuo en una oportunidad.</p>
     </div>
+
+    <div class="group reveal">
+      <!-- Decoración flotante alrededor de la foto -->
+      <div class="group__deco" aria-hidden="true">
+        <svg class="gfl gfl--1 c-fucsia"><use href="#i-flower"/></svg>
+        <svg class="gfl gfl--2"><use href="#i-leaf"/></svg>
+        <svg class="gfl gfl--3"><use href="#i-bean"/></svg>
+        <svg class="gfl gfl--4 c-turq"><use href="#i-drop"/></svg>
+        <svg class="gfl gfl--5 c-amarillo"><use href="#i-flower"/></svg>
+        <svg class="gfl gfl--6"><use href="#i-bean"/></svg>
+        <svg class="gfl gfl--7 c-naranja"><use href="#i-drop"/></svg>
+        <svg class="gfl gfl--8"><use href="#i-leaf"/></svg>
+      </div>
+
+      <!-- Pectiny asomándose por la esquina de la foto.
+           FRASES: edita la lista en data-phrases (la primera es la que se ve al inicio). -->
+      <div class="mascot-spot group__mascot" data-phrases='["¡Ellas hicieron posible PECTIKÁ! 💖","¡Gracias por visitarnos!","¡Un producto, mil posibilidades!"]'>
+        <p class="bubble bubble--left" aria-live="polite">¡Ellas hicieron posible PECTIKÁ! 💖</p>
+        <button class="mascot-btn" type="button" aria-label="Pectiny. Haz clic para que salte y diga otra frase">
+          <img src="img/pectiny.webp" alt="" width="700" height="1300" loading="lazy">
+        </button>
+      </div>
+
+      <figure class="group__frame">
+        <!-- FOTO GRUPAL: guarda la foto como img/equipo/foto-grupal.webp (o cambia el src).
+             Se muestra completa, sin recortar rostros. Si el archivo no existe, aparece un marcador. -->
+        <img class="group__photo" src="img/equipo/foto-grupal.webp" width="1600" height="900" loading="lazy"
+             alt="Foto grupal de las creadoras de PECTIKÁ: Gina Luz Condori Labra, Debora Noemi Huancayo Matias, Sonaly Clarita Lucas Pillaca, Maryory Rosmery Rivera Tumbay y Rosa Marina Soto Hualpa"
+             onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+        <div class="group__ph" hidden>
+          <svg aria-hidden="true"><use href="#i-flower"/></svg>
+          <p>Aquí va la foto grupal 📸</p>
+        </div>
+      </figure>
+    </div>
+
+    <p class="sign group__sign reveal">Proyecto Integrador · Tecsup, Lima – Santa Anita · Sección C12-C · 2026</p>
   </div>
   <div class="wave wave--bottom wave--to-cream" aria-hidden="true"></div>
 </section>
@@ -761,6 +802,6 @@
   <button class="btn btn--fucsia" id="thanksClose" type="button">¡Genial!</button>
 </dialog>
 
-<script src="js/main.js?v=4" defer></script>
+<script src="js/main.js?v=5" defer></script>
 </body>
 </html>

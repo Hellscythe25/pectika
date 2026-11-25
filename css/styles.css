@@ -690,3 +690,54 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* Campo trampa anti-spam (oculto para personas) */
 .hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ---------- 9b. Las creadoras (foto grupal) ---------- */
+.group { position: relative; max-width: 980px; margin: 9rem auto 0; }
+.group__frame {
+  position: relative; z-index: 2; margin: 0; padding: 12px; border-radius: 48px;
+  background: linear-gradient(135deg, var(--fucsia), var(--naranja) 25%, var(--amarillo) 50%, var(--oliva) 75%, var(--turq));
+  box-shadow: 0 30px 60px -24px rgba(122, 62, 18, .55);
+  transition: transform .5s var(--ease-bounce);
+}
+.group__frame:hover { transform: rotate(-.6deg) scale(1.01); }
+.group__photo { display: block; width: 100%; height: auto; border-radius: 38px; background: var(--crema); object-fit: contain; }
+.group__ph {
+  display: grid; place-items: center; align-content: center; gap: .5rem; aspect-ratio: 16 / 9; border-radius: 38px;
+  background: repeating-linear-gradient(45deg, #FFF8EE 0 22px, #FFF2DC 22px 44px);
+  font-family: var(--f-title); font-weight: 600; font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--cacao);
+}
+.group__ph[hidden], .group__photo[hidden] { display: none; }
+.group__ph svg { width: 80px; height: 80px; color: var(--fucsia); animation: rot 16s linear infinite; }
+.group__ph p { margin: 0; }
+
+/* Pectiny se asoma por la esquina superior derecha (detrás del marco) */
+.group__mascot { position: absolute; z-index: 1; top: -150px; right: 6%; display: flex; align-items: flex-start; gap: .6rem; }
+.group__mascot .mascot-btn { animation: peek 4s ease-in-out infinite; }
+.group__mascot .mascot-btn img { height: 260px; width: auto; }
+.group__mascot .bubble { margin-top: 18px; width: max-content; max-width: 230px; }
+@keyframes peek { 0%, 100% { transform: translateY(0) rotate(4deg); } 50% { transform: translateY(-10px) rotate(-3deg); } }
+
+.group__deco { position: absolute; inset: -40px -50px; pointer-events: none; z-index: 3; }
+.gfl { position: absolute; width: 44px; height: 44px; animation: float 9s ease-in-out infinite; }
+.gfl--1 { left: 0; top: 8%; width: 58px; height: 58px; }
+.gfl--2 { left: 2%; bottom: 14%; animation-delay: -3s; }
+.gfl--3 { left: 6%; top: 46%; width: 36px; animation-duration: 7s; }
+.gfl--4 { left: 26%; bottom: -6px; width: 26px; height: 34px; animation-delay: -5s; }
+.gfl--5 { right: 0; bottom: 10%; width: 56px; height: 56px; animation-duration: 11s; }
+.gfl--6 { right: 3%; top: 42%; width: 36px; animation-delay: -2s; }
+.gfl--7 { right: 30%; bottom: -10px; width: 24px; height: 32px; animation-duration: 8s; }
+.gfl--8 { left: 30%; top: 2%; width: 40px; animation-delay: -6s; }
+.group__sign { display: table; margin: 3rem auto 0; font-size: 1rem; text-align: center; }
+
+@media (max-width: 600px) {
+  .group { margin-top: 7rem; }
+  .group__frame { padding: 8px; border-radius: 32px; }
+  .group__photo, .group__ph { border-radius: 25px; }
+  .group__mascot { top: -112px; right: 2%; }
+  .group__mascot .mascot-btn img { height: 180px; }
+  .group__mascot .bubble { max-width: 150px; font-size: .88rem; margin-top: 8px; }
+  .group__deco { inset: -26px -14px; }
+  .gfl { width: 30px; height: 30px; }
+  .gfl--1, .gfl--5 { width: 40px; height: 40px; }
+  .group__sign { font-size: .9rem; padding: .7rem 1.1rem; border-radius: 22px; }
+}
